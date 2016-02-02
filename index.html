@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body>
+    <div ng-app="measurementsApp">
+        <div ng-controller="ParserController">
+            <h3>{{helloMessage}}</h3>
+
+            <div class="row">
+                <div class="col-md-4">
+                    Source:<br />
+                    <textarea style="width: 100%; height: 250px;" ng-model="source"></textarea>
+                </div>
+                <div class="col-md-4">
+                    Parsed:<br />
+                    <textarea style="width: 100%; height: 250px;" ng-bind="parseSource(source)"></textarea>
+                </div>
+                <div class="col-md-4">
+                    Rerendered:
+                    <select ng-model="selectedSystem">
+                        <option value="SI">SI (metric)</option>
+                        <option value="C">Colloquial or customary</option>
+                    </select>
+                    <br />
+                    <textarea style="width: 100%; height: 250px;" ng-bind="render(selectedSystem)"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.1/angular.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/services/UnitsService.js"></script>
+    <script src="./js/controllers/ParserController.js"></script>
+
+</body>
+</html>
