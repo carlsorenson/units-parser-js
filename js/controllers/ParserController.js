@@ -1,19 +1,19 @@
 'use strict';
 
-measurementsApp.controller('ParserController', 
+measurementsApp.controller('ParserController',
     function ParserController($scope, unitsService)
     {
         $scope.helloMessage = "Units parser";
         $scope.source = "The road is 41 feet wide and 12.8 miles long. I jumped off the high dive (3 meters) into 15 feet of water. The pool has 3000 cubic meters of water, but my bathtub only holds 85 gallons and my water bottle is .500 liters.  \nThis paper is only 0.012 inches thick.";
         $scope.selectedSystem = "SI";
 
-        var units = unitsService.units;            
-        
+        var units = unitsService.units;
+
         var digitPattern = new RegExp(/((?:\d*\.)?\d+)/);
         var unitPattern = new RegExp("(" + unitsService.getUnitNames() + ")");
         var combined = new RegExp(digitPattern.source + "(?: |-)" + unitPattern.source, "g");
         console.log(combined.source);
-        
+
         $scope.parsed = "";
         $scope.parseSource = function (src)
         {
@@ -36,7 +36,7 @@ measurementsApp.controller('ParserController',
                 var precision = unitsService.inferPrecision(amount)
                 //console.log("amount: " + amount + ", match: " + match[0]);
                 //console.log(precision);
-                
+
                 var unitName = match[2];
 
                 var selectedUnit;
@@ -44,7 +44,8 @@ measurementsApp.controller('ParserController',
                     if (units[i].name == unitName)
                         selectedUnit = units[i];
 
-                var normalized = (amount * selectedUnit.factor).toPrecision(precision);
+                var temp = Math.max(precision + 1, 5);
+                var normalized = (amount * selectedUnit.factor).toPrecision(temp);
 
                 results[count] =
                     {
@@ -56,7 +57,7 @@ measurementsApp.controller('ParserController',
                     };
                 count++;
                 combined.lastIndex++;
-                offset = 1;                               
+                offset = 1;
             }
 
             results[count] = src.substring(priorIndex - offset);
@@ -118,6 +119,6 @@ measurementsApp.controller('ParserController',
             }
             return unitToUse;
         }
-        
+
     }
 );
